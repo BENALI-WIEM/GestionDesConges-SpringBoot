@@ -3,7 +3,9 @@ package com.rhc.controller;
 import com.rhc.entity.Conge;
 import com.rhc.entity.StatusConge;
 import com.rhc.service.CongeService;
+import com.rhc.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 public class CongeController {
     @Autowired
     private CongeService congeService;
+
+
 
     @PostMapping
     public Conge demanderConge(@RequestBody Conge conge, @RequestParam int idUtilisateur) {
@@ -31,7 +35,6 @@ public class CongeController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:4200")
 
     public List<Conge> getAllConges() {
         return congeService.getAllConges();
@@ -40,5 +43,12 @@ public class CongeController {
     @GetMapping("/utilisateur/{idUtilisateur}/historique")
     public List<Conge> getHistoriqueConges(@PathVariable int idUtilisateur) {
         return congeService.getHistoriqueConges(idUtilisateur);
+    }
+
+
+    @DeleteMapping("/{idDemande}")
+    public ResponseEntity<Void> deleteConge(@PathVariable int idDemande) {
+        congeService.deleteConge(idDemande);
+        return ResponseEntity.noContent().build();
     }
 }
