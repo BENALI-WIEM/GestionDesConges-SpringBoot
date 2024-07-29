@@ -1,5 +1,6 @@
 package com.rhc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class Conge {
     @Enumerated(EnumType.STRING)
     private StatusConge  status;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "idEmploye", insertable = false, updatable = false)
     private Utilisateur utilisateur;

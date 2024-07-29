@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
 @RequestMapping("/api/conges")
@@ -14,29 +15,30 @@ public class CongeController {
     @Autowired
     private CongeService congeService;
 
+    @PostMapping
+    public Conge demanderConge(@RequestBody Conge conge, @RequestParam int idUtilisateur) {
+        return congeService.demanderConge(conge, idUtilisateur);
+    }
+
+    @PutMapping("/{idDemande}")
+    public Conge validerConge(@PathVariable int idDemande, @RequestParam StatusConge status) {
+        return congeService.validerConge(idDemande, status);
+    }
+
+    @GetMapping("/utilisateur/{idUtilisateur}")
+    public List<Conge> getCongesUtilisateur(@PathVariable int idUtilisateur) {
+        return congeService.getCongesUtilisateur(idUtilisateur);
+    }
+
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:4200")
+
     public List<Conge> getAllConges() {
         return congeService.getAllConges();
     }
 
-    @GetMapping("/employe/{idEmploye}")
-    public List<Conge> getCongesByEmploye(@PathVariable int idEmploye) {
-        return congeService.getCongesByEmploye(idEmploye);
-    }
-
-    @PostMapping
-    public Conge createConge(@RequestBody Conge conge) {
-        conge.setStatus(StatusConge.EN_ATTENTE);
-        return congeService.saveConge(conge);
-    }
-
-    @PutMapping("/{idDemande}/status")
-    public Conge updateStatus(@PathVariable int idDemande, @RequestBody StatusConge status) {
-        return congeService.updateStatus(idDemande, status);
-    }
-
-    @DeleteMapping("/{idDemande}")
-    public void deleteConge(@PathVariable int idDemande) {
-        congeService.deleteConge(idDemande);
+    @GetMapping("/utilisateur/{idUtilisateur}/historique")
+    public List<Conge> getHistoriqueConges(@PathVariable int idUtilisateur) {
+        return congeService.getHistoriqueConges(idUtilisateur);
     }
 }

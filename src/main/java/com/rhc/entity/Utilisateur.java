@@ -1,5 +1,6 @@
 package com.rhc.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "utilisateur")
     private List<Conge> conges;
 
@@ -66,4 +68,5 @@ public class Utilisateur {
     public void setConges(List<Conge> conges) {
         this.conges = conges;
     }
+
 }
